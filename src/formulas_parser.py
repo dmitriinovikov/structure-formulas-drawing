@@ -23,26 +23,27 @@ class SmileFormulaParser:
 
         return prepared_formula
 
+    def find_last_non_bracket(self, stack):
+        i = -1
+        while stack[i] == '(' or stack[i] == ')':
+            i -= 1
+        return stack[i]
+
     def parse_formula(self):
         prepared_formula = self.prepare_formula()
         self.graph = np.zeros((self.vertices_count, self.vertices_count))
         cur_vertex_idx = 0
-        stack = []
-        is_last_symbol_close_bracket = False
+        stack = [0]
         for i in range(1, len(prepared_formula)):
             next_element = prepared_formula[i]
             if next_element == '(':
-                if not is_last_symbol_close_bracket:
-                    is_last_symbol_close_bracket = False
-                    stack.append(cur_vertex_idx)
+                stack.append(next_element)
             elif next_element == ')':
-                is_last_symbol_close_bracket = True
+                while stack[-1] != '(':
+                    stack.pop()
+                stack.pop()
             else:
-                if is_last_symbol_close_bracket:
-                    self.add_edge_to_graph(stack[-1], cur_vertex_idx + 1)
-                else:
-                    self.add_edge_to_graph(cur_vertex_idx, cur_vertex_idx + 1)
+                self.add_edge_to_graph(self.find_last_non_bracket(stack), cur_vertex_idx + 1)
                 cur_vertex_idx += 1
-                is_last_symbol_close_bracket = False
-
+                stack.append(cur_vertex_idx)
         return self.graph

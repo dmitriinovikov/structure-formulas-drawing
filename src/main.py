@@ -1,6 +1,6 @@
 import argparse
 
-from formulas_parses import SmileFormulaParser
+from formulas_parser import SmileFormulaParser
 from graph_builder import GraphBuilder
 from graph_drawer import GraphDrawer
 

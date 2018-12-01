@@ -20,11 +20,18 @@ class GraphDrawer:
         for i in range(self.graph.shape[0]):
             for j in range(self.graph.shape[1]):
                 if i < j and self.graph[i][j]:
-                    ax.plot([self.coordinates[i][0], self.coordinates[j][0]],
-                            [self.coordinates[i][1], self.coordinates[j][1]],
-                            [self.coordinates[i][2], self.coordinates[j][2]],
-                            linewidth=3, linestyle="-", c="purple",
-                            marker='o')
+                    x_coordinates = [self.coordinates[i][0], self.coordinates[j][0]]
+                    y_coordinates = [self.coordinates[i][1], self.coordinates[j][1]]
+                    z_coordinates = [self.coordinates[i][2], self.coordinates[j][2]]
+                    ax.plot(x_coordinates,
+                            y_coordinates,
+                            z_coordinates,
+                            marker='o',
+                            ms=20,
+                            linewidth=10,
+                            linestyle="-",
+                            c='black'
+                            )
 
         plt.show(block=True)
 
@@ -34,9 +41,14 @@ class GraphDrawer:
         for i in range(self.graph.shape[0]):
             for j in range(self.graph.shape[1]):
                 if i < j and self.graph[i][j]:
-                    ax.plot([self.coordinates[i][0], self.coordinates[j][0]],
-                            [self.coordinates[i][1], self.coordinates[j][1]],
-                            linewidth=3, linestyle="-", c="purple",
-                            marker='o')
+                    x_coordinates = [self.coordinates[i][0], self.coordinates[j][0]]
+                    y_coordinates = [self.coordinates[i][1], self.coordinates[j][1]]
+                    ax.plot(x_coordinates,
+                            y_coordinates,
+                            marker='o',
+                            ms=25,
+                            linewidth=10,
+                            linestyle="-",
+                            c="black")
 
         plt.show(block=True)

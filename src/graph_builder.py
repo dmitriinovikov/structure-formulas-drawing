@@ -37,9 +37,9 @@ class GraphBuilder:
     def get_coordinates(self):
         coordinates = self.initialize_coordinates()
 
+        all_forces_norms = [sys.maxsize]
         for i in range(self.max_iterations_count):
             forces = []
-            prev_forces_norm = sys.maxsize
             for v in range(self.graph.shape[0]):
                 for u in range(self.graph.shape[0]):
                     if u != v:
@@ -48,14 +48,18 @@ class GraphBuilder:
 
                         if self.graph[v][u]:
                             force = self.c1 * log(d / self.c2)
-                            force = self.c1 * (d / self.c2)
                         else:
                             force = -self.c3 / d ** 2
 
                         shift = self.c4 * force * shift_vector / d
                         coordinates[v] += shift
                         forces.append(force)
-            # if np.linalg.norm(forces) > prev_forces_norm:
-            #     break
+            cur_forces_norm = np.linalg.norm(forces)
+
+            if cur_forces_norm >= np.max(all_forces_norms[-10:]):
+                print('Iterations count: {}'.format(i))
+                break
+
+            all_forces_norms.append(cur_forces_norm)
 
         return coordinates
